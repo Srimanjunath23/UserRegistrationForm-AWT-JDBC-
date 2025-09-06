@@ -1,6 +1,5 @@
 
 import java.awt.*;
-import java.awt.event.*;
 public class Form {
     Form(){
         Frame f=new Frame("User Registration Form");
@@ -102,6 +101,6 @@ public class Form {
         submit.addActionListener(btnlistner);
     }
     public static void main(String[] args) {
-        new Form();
+        Form form = new Form();
     }
 }

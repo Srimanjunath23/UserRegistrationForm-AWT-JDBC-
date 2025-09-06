@@ -7,31 +7,33 @@ public class DB {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/userform", "root", "root");
             System.out.println("Connected to database successfully");
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println("JDBC Driver not found: " + e);
+        } catch (SQLException e) {
+            System.out.println("SQL Error: " + e);
         }
     }
-    public void insert(String name, String email, String pass, String cpass, String dob, String phone, String address){
-        try {
-            String query="insert into users values(?,?,?,?,?,?,?)";
-            PreparedStatement pstmt=con.prepareStatement(query);
-            pstmt.setString(1, name);
-            pstmt.setString(2, email);
-            if(pass.equals(cpass)){
-                pstmt.setString(3, pass);
-                pstmt.setString(4, dob);
-                pstmt.setString(5, phone);
-                pstmt.setString(6, address);
-            } else {
-                System.out.println("Password not matched");
-            }
-           
-            
+    public void insert(String name, String email, String pass, String gender, String dob, String phone, String address) {
+    try {
+        String query = "INSERT INTO users (name, email, password, gender, dob, phone, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(query);
+        pstmt.setString(1, name);
+        pstmt.setString(2, email);
+        pstmt.setString(3, pass);   
+        pstmt.setString(4, gender);  
+        pstmt.setString(5, dob);     
+        pstmt.setString(6, phone);
+        pstmt.setString(7, address);
 
-            
-
-        } catch (Exception e) {
-            System.out.println(e);
+        int rows = pstmt.executeUpdate();  // <-- this actually inserts
+        if (rows > 0) {
+            System.out.println("Data inserted successfully into DB!");
+        } else {
+            System.out.println("Data not inserted!");
         }
+    } catch (Exception e) {
+        System.out.println(e);
     }
+}
+
 }
